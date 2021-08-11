@@ -18,7 +18,7 @@ public class SalaryCalculator {
         double rate = 42.50;
         career = "Web Developer";
 
-        double salary = hoursPerWeek * weeksPerYear * weeksPerYear * rate;
+        double salary = hoursPerWeek * hoursPerWeek * weeksPerYear * rate;
         System.out.println("My salary as a " + career + "at the rate of $" + rate + " per hour is $" + salary + " per year.");
 
         // compute our annual salary
