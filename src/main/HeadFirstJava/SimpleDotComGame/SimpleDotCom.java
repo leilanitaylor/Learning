@@ -26,8 +26,9 @@ public class SimpleDotCom {
         // check if current guess was previously guessed
         for (int i = 0; i < previousGuess.size(); i++) {
             if (guess == previousGuess.get(i)) {
-                System.out.println("You already guessed this number");
-                return "Guess again";
+                result = "You already guessed this number";
+                System.out.println(result);
+                return result;
             }
         }
         // add guess to previousGuess ArrayList
