@@ -1,16 +1,16 @@
 package main.juniorJavaDevClass.OOP;
 
-public class BankAccount {
+public class BankAccount implements IRate {
     // Define variables
     String accountNumber;
 
     // static >> belongs to the CLASS not the object instance
     // final >> constant (often static final)
-    final static String routingNumber = "013546";
+    private final static String routingNumber = "013546";
 
     // Instance Variable
-    String name;
-    String ssn;
+    private String name;
+    private String ssn;
     String accountType;
     double balance = 0;
 
@@ -40,13 +40,50 @@ public class BankAccount {
         balance = initDeposit;
     }
 
-    // Define methods
-    void deposit() {
 
+
+    // Getters / Setters
+
+    // Allow the user to define the name
+    public void setName(String name) {
+        this.name = "Mr. " +name;
+    }
+    public String getName() {
+        return name;
     }
 
-    void withdraw() {
+    public String getSsn() {
+        return ssn;
+    }
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
 
+
+    // Interface methods
+    public void setRate() {
+        System.out.println("SETTING RATE");
+    }
+    public void increaseRate() {
+        System.out.println("INCREASING RATE");
+    }
+
+
+    // Define methods
+    public void deposit(double amount) {
+        balance = balance + amount;
+        showActivity("DEPOSIT");
+    }
+
+    void withdraw(double amount) {
+        balance = balance - amount;
+        showActivity("WITHDRAW");
+    }
+
+    // Private : can only be called from within the class
+    private void showActivity(String activity) {
+        System.out.println("YOUR RECENT TRANSACTION: " + activity);
+        System.out.println("YOUR NEW BALANCE IS: $" + balance);
     }
 
     void checkBalance() {
@@ -55,6 +92,11 @@ public class BankAccount {
 
     void getStatus() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "[ NAME: " + name + ". ACCOUNT # " + accountNumber + ". ROUTING # " + routingNumber + ". BALANCE: $" + balance + " ]";
     }
 
 }
