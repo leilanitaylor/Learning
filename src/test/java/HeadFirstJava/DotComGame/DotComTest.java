@@ -23,6 +23,10 @@ class DotComTest {
         String result = dotCom1.checkYourself(guess);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
+        expected = "miss";
+        result = dotCom1.checkYourself(guess);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
