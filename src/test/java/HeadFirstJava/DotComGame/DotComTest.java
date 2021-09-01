@@ -1,6 +1,5 @@
-package java.HeadFirstJava.DotComGame;
+package HeadFirstJava.DotComGame;
 
-import HeadFirstJava.DotComGame.DotCom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
