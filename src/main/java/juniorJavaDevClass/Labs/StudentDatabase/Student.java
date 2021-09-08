@@ -8,7 +8,7 @@ Create a student Database with the following attributes:
     - Set a private static ID
     - Generate a user ID that is combination fo Static ID, random 4-digit number between 1000 and 9000, and the last 4 of SSN
     - Methods: enroll(), pay(), toString(), showCourses()
-    use encapsulation to set variables (phone, city, state)
+    - use encapsulation to set variables (phone, city, state)
  */
 
 import java.util.Locale;
@@ -25,31 +25,6 @@ public class Student {
     private int balance = 0;
     private String phone;
     private String city;
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     private String state;
 
     // constructor
@@ -102,4 +77,27 @@ public class Student {
         System.out.println(courses);
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

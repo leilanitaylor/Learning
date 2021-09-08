@@ -1,6 +1,8 @@
 package juniorJavaDevClass.Files;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class PhoneNumberApp {
     public static void main(String[] args) {
@@ -9,8 +11,8 @@ public class PhoneNumberApp {
             // 10 digits long
             // Area code cannot start in 0 or 9
             // There can be 911 in the phone
-        String filename = "C:\\Users\\leilanitaylor\\OneDrive - Clearwater\\Documents\\Java Learning\\Files\\PhoneNumber.txt";
-        File file = new File(filename);
+        Path path = Paths.get("src/main/resources").resolve("PhoneNumber.txt");
+        File file = path.toFile();
         String[] phoneNums = new String[9];
         String phoneNum = null;
 

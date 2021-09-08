@@ -13,15 +13,17 @@ Read a file that checks the criteria for a password
 
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class PasswordApp {
     public static void main(String[] args) {
 
-        String filename = "C:\\Users\\leilanitaylor\\OneDrive - Clearwater\\Documents\\Java Learning\\Files\\Passwords.txt";
-        File file = new File(filename);
-        ArrayList<String> passwords = new ArrayList<String>();
-        String password = null;
+        Path path = Paths.get("src/main/resources").resolve("Passwords.txt");
+        File file = path.toFile();
+        ArrayList<String> passwords = new ArrayList<>();
+        String password;
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
