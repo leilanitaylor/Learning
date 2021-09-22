@@ -54,17 +54,16 @@ public class FibonacciHuge {
 
         long previous = 0;
         long current = 1;
-        long temp = 0;
-        if (newBase == 0) return 0;
-        if (newBase == 1) return 1;
+        long temp;
+        if (newBase == 0 || newBase == 1) return newBase;
 
         for (int i = 0; i < newBase - 1; i++) {
             temp = current;
             current = (previous + current) % m;
             previous = temp;
         }
-        long result = current %m;
-        return result;
+
+        return current % m;
     }
 
 
