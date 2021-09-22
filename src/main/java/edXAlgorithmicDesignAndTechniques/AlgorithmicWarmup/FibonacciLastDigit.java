@@ -1,4 +1,4 @@
-package edXAlgorithmicDesignAndTechniques;
+package edXAlgorithmicDesignAndTechniques.AlgorithmicWarmup;
 /*
 -----------------------------------------------------------------------------
 Problem Introduction:

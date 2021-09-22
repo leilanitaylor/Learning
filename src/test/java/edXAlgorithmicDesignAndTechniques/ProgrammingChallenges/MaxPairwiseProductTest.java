@@ -1,10 +1,9 @@
-package edXAlgorithmicDesignAndTechniques;
+package edXAlgorithmicDesignAndTechniques.ProgrammingChallenges;
 
+import edXAlgorithmicDesignAndTechniques.ProgrammingChallenges.MaxPairwiseProduct;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MaxPairwiseProductTest {
     MaxPairwiseProduct maxPairProd;
