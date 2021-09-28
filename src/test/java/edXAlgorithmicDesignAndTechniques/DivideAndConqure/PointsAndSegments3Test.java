@@ -121,4 +121,118 @@ class PointsAndSegments3Test {
             Assertions.assertEquals(expected[i], result[i]);
         }
     }
+
+    @Test
+    void test1SortPoints() {
+        PointsAndSegments3.Point[] points = new PointsAndSegments3.Point[3];
+        points[0] = new PointsAndSegments3.Point(-100, 0);
+        points[1] = new PointsAndSegments3.Point(100, 1);
+        points[2] = new PointsAndSegments3.Point(0, 2);
+        PointsAndSegments3.Point[] expected = new PointsAndSegments3.Point[3];
+        expected[0] = new PointsAndSegments3.Point(-100, 0);
+        expected[1] = new PointsAndSegments3.Point(0, 2);
+        expected[2] = new PointsAndSegments3.Point(100, 1);
+        ps.sortPoints(points, 0, points.length-1);
+        Assertions.assertNotNull(points);
+        Assertions.assertEquals(expected.length, points.length);
+        for (int i = 0; i < points.length; i++) {
+            Assertions.assertEquals(expected[i].point, points[i].point);
+        }
+    }
+
+    @Test
+    void test5CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {10, 3, -100, 3, -7, 25, 70};
+        int[] expected = {2, 2, 0, 2, 1, 1, 0};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
+
+    @Test
+    void test6CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {1};
+        int[] expected = {2};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
+
+    @Test
+    void test7CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {50};
+        int[] expected = {1};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
+
+    @Test
+    void test8CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {-10};
+        int[] expected = {1};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
+
+    @Test
+    void test9CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {-20};
+        int[] expected = {0};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
+
+    @Test
+    void test10CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(-10, 10);
+        segments[1] = new PointsAndSegments3.Segment(0, 5);
+        segments[2] = new PointsAndSegments3.Segment(10, 50);
+        int[] points = {75};
+        int[] expected = {0};
+        int[] result = ps.countSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
+    }
 }
