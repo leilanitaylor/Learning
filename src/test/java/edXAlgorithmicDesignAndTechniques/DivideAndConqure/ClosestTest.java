@@ -20,8 +20,9 @@ class ClosestTest {
     void test1Dist() {
         Closest.Point a = new Closest.Point(-1, -1);
         Closest.Point b = new Closest.Point(-2, -2);
-        double expected = 1.414213;
+        double expected = 1.4142;
         double result = close.dist(a, b);
+        result = Math.round(result *10000) / 10000D;
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
     }
@@ -64,8 +65,9 @@ class ClosestTest {
         points[0] = new Closest.Point(7, 7);
         points[1] = new Closest.Point(1, 100);
         points[2] = new Closest.Point(4, 8);
-        double expected = 3.162278;
+        double expected = 3.1623;
         double result = close.bruteForce(points, 0, points.length-1);
+        result = Math.round(result * 10000) / 10000D;
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
     }
@@ -332,8 +334,9 @@ class ClosestTest {
         points[8] = new Closest.Point(2, 3);
         points[9] = new Closest.Point(3, -1);
         points[10] = new Closest.Point(4, 4);
-        double expected = 1.414213;
+        double expected = 1.4142;
         double  result = close.getDistance(points, 0, points.length-1);
+        result = Math.round(result * 10000) / 10000D;
         Assertions.assertNotNull(result);
         Assertions.assertEquals(expected, result);
     }
@@ -378,4 +381,93 @@ class ClosestTest {
         Assertions.assertEquals(expected, result);
     }
 
+    @Test
+    void test1SortPoints() {
+        Closest.Point[] points = new Closest.Point[4];
+        points[0] = new Closest.Point(0, 0);
+        points[1] = new Closest.Point(5, 6);
+        points[2] = new Closest.Point(3, 4);
+        points[3] = new Closest.Point(7, 2);
+        Closest.Point[] expected = new Closest.Point[4];
+        expected[0] = new Closest.Point(0, 0);
+        expected[1] = new Closest.Point(3, 4);
+        expected[2] = new Closest.Point(5, 6);
+        expected[3] = new Closest.Point(7, 2);
+        close.sortPoints(points, 0, points.length-1);
+        Assertions.assertNotNull(points);
+        Assertions.assertEquals(expected.length, points.length);
+        for (int i = 0; i < points.length; i++) {
+            Assertions.assertEquals(expected[i].x, points[i].x);
+            Assertions.assertEquals(expected[i].y, points[i].y);
+        }
+    }
+
+    @Test
+    void test1GetDistance() {
+        Closest.Point[] points = new Closest.Point[4];
+        points[0] = new Closest.Point(0, 0);
+        points[1] = new Closest.Point(3, 4);
+        points[2] = new Closest.Point(5, 6);
+        points[3] = new Closest.Point(7, 2);
+        double expected = 2.8284;
+        double result = close.getDistance(points, 0, points.length-1);
+        result = Math.round(result * 10000) / 10000D;
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test3SortPtsToCheck() {
+        List<Closest.Point> ptsToCheck = new ArrayList<>();
+        ptsToCheck.add(new Closest.Point(3, 4));
+        ptsToCheck.add(new Closest.Point(0, 0));
+        ptsToCheck.add(new Closest.Point(5, 6));
+        ptsToCheck.add(new Closest.Point(7, 2));
+        List<Closest.Point> expected = new ArrayList<>();
+        expected.add(new Closest.Point(0, 0));
+        expected.add(new Closest.Point(7, 2));
+        expected.add(new Closest.Point(3, 4));
+        expected.add(new Closest.Point(5, 6));
+        close.sortPtsToCheck(ptsToCheck, 0, ptsToCheck.size()-1);
+        Assertions.assertNotNull(ptsToCheck);
+        Assertions.assertEquals(expected.size(), ptsToCheck.size());
+        for (int i = 0; i < ptsToCheck.size(); i++) {
+            Assertions.assertEquals(expected.get(i).y, ptsToCheck.get(i).y);
+        }
+    }
+
+    @Test
+    void test4FilterPtsToCheck() {
+        List<Closest.Point> ptsToCheck = new ArrayList<>();
+        ptsToCheck.add(new Closest.Point(0, 0));
+        ptsToCheck.add(new Closest.Point(7, 2));
+        ptsToCheck.add(new Closest.Point(3, 4));
+        ptsToCheck.add(new Closest.Point(5, 6));
+        double currentMin = 4.4721;
+        List<Closest.Point> expected = new ArrayList<>();
+        expected.add(new Closest.Point(0, 0));
+        expected.add(new Closest.Point(7, 2));
+        expected.add(new Closest.Point(3, 4));
+        expected.add(new Closest.Point(5, 6));
+        close.filterPtsToCheck(ptsToCheck, currentMin);
+        Assertions.assertEquals(expected.size(), ptsToCheck.size());
+        for (int i = 0; i < ptsToCheck.size(); i++) {
+            Assertions.assertEquals(expected.get(i).y, ptsToCheck.get(i).y);
+            Assertions.assertEquals(expected.get(i).x, ptsToCheck.get(i).x);
+        }
+    }
+
+    @Test
+    void test4BruteForce() {
+        Closest.Point[] midPtsToCheck = new Closest.Point[4];
+        midPtsToCheck[0] = new Closest.Point(0, 0);
+        midPtsToCheck[1] = new Closest.Point(7, 2);
+        midPtsToCheck[2] = new Closest.Point(3, 4);
+        midPtsToCheck[3] = new Closest.Point(5, 6);
+        double expected = 2.8284;
+        double result = close.bruteForce(midPtsToCheck, 0, midPtsToCheck.length-1);
+        result = Math.round(result * 10000) / 10000D;
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(expected, result);
+    }
 }

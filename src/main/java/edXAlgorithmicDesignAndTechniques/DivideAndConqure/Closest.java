@@ -180,6 +180,7 @@ public class Closest {
 
         List<Point> ptsToCheck = new ArrayList<>();
         int i = mid - 1;
+        ptsToCheck.add(midPoint);
         while (i >= left && (Math.abs(points[i].x - midPoint.x)) < currentMin) {
             ptsToCheck.add(points[i]);
             i--;
