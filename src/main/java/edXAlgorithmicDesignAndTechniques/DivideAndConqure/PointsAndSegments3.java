@@ -24,6 +24,10 @@ public class PointsAndSegments3 {
         }
     }
 
+    public static class Coverage {
+        int point, runningTotal;
+    }
+
     private static Random random = new Random();
 
     public static void main(String[] args) {
@@ -85,6 +89,7 @@ public class PointsAndSegments3 {
 
         Point[] coveredPts = new Point[maxVal - minVal + 1];
         int runningTotal = 0;
+
         for (int i = minVal, j = 0; j < coveredPts.length; i++, j++) {
             runningTotal += segmentIntersections.getOrDefault(i, 0);
             coveredPts[j] = new Point(i, runningTotal);
