@@ -554,10 +554,12 @@ public class Closest {
 
     public static double stripClosest(List<Point> strip, double currentMin) {
         for (int firstIndex = 0; firstIndex < strip.size()-1; firstIndex++) {
-            for (int secondIndex = firstIndex+1; secondIndex < strip.size() && (strip.get(secondIndex).y - strip.get(secondIndex).y < currentMin); ++secondIndex) {
-                double distance = dist(strip.get(firstIndex), strip.get(secondIndex));
-                if (distance < currentMin) {
-                    currentMin = distance;
+            for (int secondIndex = firstIndex+1; secondIndex < strip.size(); ++secondIndex) {
+                if (strip.get(secondIndex).y - strip.get(secondIndex).y < currentMin) {
+                    double distance = dist(strip.get(firstIndex), strip.get(secondIndex));
+                    if (distance < currentMin) {
+                        currentMin = distance;
+                    }
                 }
             }
         }
