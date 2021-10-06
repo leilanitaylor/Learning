@@ -3,9 +3,9 @@ package edXAlgorithmicDesignAndTechniques.DivideAndConqure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.swing.text.Segment;
+
 
 class PointsAndSegments3Test {
 
@@ -22,7 +22,7 @@ class PointsAndSegments3Test {
         int[] expected = {1, 0, 0};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -36,7 +36,7 @@ class PointsAndSegments3Test {
         int[] expected = {0, 0, 1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -52,7 +52,7 @@ class PointsAndSegments3Test {
         int[] expected = {2, 0};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -68,7 +68,7 @@ class PointsAndSegments3Test {
         int[] expected = {0, 3, 1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -84,7 +84,7 @@ class PointsAndSegments3Test {
         int[] expected = {0, 2, 1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -100,7 +100,7 @@ class PointsAndSegments3Test {
         int[] expected = {2, 2, 1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -116,29 +116,13 @@ class PointsAndSegments3Test {
         int[] expected = {2, 1, 2};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
     }
 
-    @Test
-    void test1SortPoints() {
-        PointsAndSegments3.Point[] points = new PointsAndSegments3.Point[3];
-        points[0] = new PointsAndSegments3.Point(-100, 0);
-        points[1] = new PointsAndSegments3.Point(100, 1);
-        points[2] = new PointsAndSegments3.Point(0, 2);
-        PointsAndSegments3.Point[] expected = new PointsAndSegments3.Point[3];
-        expected[0] = new PointsAndSegments3.Point(-100, 0);
-        expected[1] = new PointsAndSegments3.Point(0, 2);
-        expected[2] = new PointsAndSegments3.Point(100, 1);
-        ps.sortPoints(points, 0, points.length-1);
-        Assertions.assertNotNull(points);
-        Assertions.assertEquals(expected.length, points.length);
-        for (int i = 0; i < points.length; i++) {
-            Assertions.assertEquals(expected[i].point, points[i].point);
-        }
-    }
+
 
     @Test
     void test5CountSegments() {
@@ -150,7 +134,7 @@ class PointsAndSegments3Test {
         int[] expected = {2, 2, 0, 2, 1, 1, 0};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -166,7 +150,7 @@ class PointsAndSegments3Test {
         int[] expected = {2};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -182,7 +166,7 @@ class PointsAndSegments3Test {
         int[] expected = {1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -198,7 +182,7 @@ class PointsAndSegments3Test {
         int[] expected = {1};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -214,7 +198,7 @@ class PointsAndSegments3Test {
         int[] expected = {0};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
@@ -230,9 +214,125 @@ class PointsAndSegments3Test {
         int[] expected = {0};
         int[] result = ps.countSegments(segments, points);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.length, result.length);
+        Assertions.assertEquals(points.length, result.length);
         for (int i = 0; i < result.length; i++) {
             Assertions.assertEquals(expected[i], result[i]);
         }
+    }
+
+    @Test
+    void test11CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[1];
+        segments[0] = new PointsAndSegments3.Segment(1, 1);
+        int[] points = {-10, 1, 15};
+        int[] expected = {0, 1, 0};
+        int[] result = ps.countSegments(segments, points);
+        int[] naive = naiveCountSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(points.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+            Assertions.assertEquals(naive[i], result[i]);
+        }
+    }
+
+    @Test
+    void test12CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(1, 3);
+        segments[1] = new PointsAndSegments3.Segment(2, 2);
+        segments[2] = new PointsAndSegments3.Segment(1, 3);
+        int[] points = {-10, 3, 5, 2, 3, 4};
+        int[] expected = {0, 2, 0, 3, 2, 0};
+        int[] result = ps.countSegments(segments, points);
+        int[] naive = naiveCountSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(points.length, result.length);
+        Assertions.assertEquals(naive.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+            Assertions.assertEquals(naive[i], result[i]);
+            Assertions.assertTrue(result[i] >= 0 && result[i] <= 50000);
+        }
+    }
+
+    @Test
+    void test14CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[3];
+        segments[0] = new PointsAndSegments3.Segment(0, 0);
+        segments[1] = new PointsAndSegments3.Segment(1, 1);
+        segments[2] = new PointsAndSegments3.Segment(2, 2);
+        int[] points = {-1, 0, 1, 2, 3};
+        int[] expected = {0, 1, 1, 1, 0};
+        int[] result = ps.countSegments(segments, points);
+        int[] naive = naiveCountSegments(segments, points);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(points.length, result.length);
+        Assertions.assertEquals(naive.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+            Assertions.assertEquals(naive[i], result[i]);
+            Assertions.assertTrue(result[i] >= 0 && result[i] <= 50000);
+        }
+    }
+
+    @Test
+    void test13CountSegments() {
+        int numTests = 50000;
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[numTests];
+        int[] points = new int[numTests];
+        for (int i = 0; i < numTests; i++) {
+            int a = (int)(Math.random() * 10000000);
+            int b = (int)(Math.random() * (10000000 - a)) + a;
+            a -= 5000000;
+            b -= 5000000;
+            Assertions.assertTrue(b >=a);
+            segments[i] = new PointsAndSegments3.Segment(a, b);
+            int point = (int)(Math.random() * 10000000);
+            point -= 5000000;
+            points[i] = point;
+        }
+        int[] result = ps.countSegments(segments, points);
+        int[] naive = naiveCountSegments(segments, points);
+        Assertions.assertEquals(naive.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertNotNull(result);
+            Assertions.assertNotNull(naive);
+            Assertions.assertEquals(naive[i], result[i]);
+            Assertions.assertTrue(result[i] >= 0 && result[i] <= 50000);
+        }
+    }
+
+    @Test
+    void test15CountSegments() {
+        PointsAndSegments3.Segment[] segments = new PointsAndSegments3.Segment[5];
+        segments[0] = new PointsAndSegments3.Segment(-100000000, 100000000);
+        segments[1] = new PointsAndSegments3.Segment(-50000, 60000);
+        segments[2] = new PointsAndSegments3.Segment(-100000000, -100000000);
+        segments[3] = new PointsAndSegments3.Segment(0, 0);
+        segments[4] = new PointsAndSegments3.Segment(100000000, 100000000);
+        int[] points = {-100000000, -50000, -100, 0, 500, 600000, 70000, 100000000};
+        int[] result = ps.countSegments(segments, points);
+        int[] naive = naiveCountSegments(segments, points);
+        Assertions.assertEquals(naive.length, result.length);
+        for (int i = 0; i < result.length; i++) {
+            Assertions.assertNotNull(result);
+            Assertions.assertNotNull(naive);
+            Assertions.assertEquals(naive[i], result[i]);
+            Assertions.assertTrue(result[i] >= 0 && result[i] <= 50000);
+        }
+    }
+
+
+    private static int[] naiveCountSegments(PointsAndSegments3.Segment[] segments, int[] points) {
+        int[] cnt = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            for (int j = 0; j < segments.length; j++) {
+                if (segments[j].start <= points[i] && points[i] <= segments[j].end) {
+                    cnt[i]++;
+                }
+            }
+        }
+        return cnt;
     }
 }

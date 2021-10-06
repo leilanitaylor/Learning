@@ -260,4 +260,6 @@ public class PointsAndSegments {
             System.out.print(x + " ");
         }
     }
+
+
 }

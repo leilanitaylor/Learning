@@ -84,6 +84,46 @@ Sample 6:
     The code { doesn't use brackets correctly, because brackets cannot be divided into
     pairs (there is just one bracket). There are no closing brackets, and the first
     unmatched opening bracket is {, and its position is 1, so we output 1.
+
+Sample 7:
+    Input:
+        {[}
+    Output:
+        3
+    The bracket } is unmatched, because the last unmatched opening bracket before it is [
+    and not {. It is the first unmatched closing bracket, and our first priority is to
+    output the first unmatched closing bracket, and its position is 3, so we output 3.
+
+Sample 8:
+    Input:
+        foo(bar);
+    Output:
+        Success
+    All the brackets are matching, and the other symbols can be ignored.
+
+Sample 9:
+    Input:
+        foo(bar[i);
+    Output:
+        10
+    ) doesn't match [, so ) is the first unmatched closing bracket, so we output its
+    position, which is 10.
+
+Starter Files:
+There are starter solutions only for C++, Java and Python3, and if  you use other languages,
+you need to implement solution from scratch. Starter solutions read the code from teh input
+and go through the code character-by-character and provide convenience methods. You need to
+implement the processing of the brackets to find the answer to the problem and to output
+the answer.
+
+What to Do:
+To solve this problem, you can slightly modify the IsBalanced algorithm from the lectures to
+account not only for the brackets, but also for other characters in the code, and return
+not just whether the code uses brackets correctly, but also what is the first position
+where the code becomes broken.
+
+Need Help?
+Ask a question or see the questions asked by other learners at this forum thread.
  */
 
 import java.io.BufferedReader;
