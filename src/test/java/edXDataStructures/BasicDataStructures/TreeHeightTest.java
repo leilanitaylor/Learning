@@ -81,22 +81,6 @@ class TreeHeightTest {
         TreeHeight.Height tree = new TreeHeight.Height();
         tree.n = 5;
         tree.nodes = new TreeHeight.Node[tree.n];
-        tree.nodes[0] = new TreeHeight.Node(0, -1);
-        tree.nodes[1] = new TreeHeight.Node(1, -1);
-        tree.nodes[2] = new TreeHeight.Node(2, -1);
-        tree.nodes[3] = new TreeHeight.Node(3, -1);
-        tree.nodes[4] = new TreeHeight.Node(4, -1);
-        int expected = 1;
-        int result = tree.height();
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected, result);
-    }
-
-    @Test
-    void test2height() {
-        TreeHeight.Height tree = new TreeHeight.Height();
-        tree.n = 5;
-        tree.nodes = new TreeHeight.Node[tree.n];
         tree.nodes[0] = new TreeHeight.Node(0, 3);
         tree.nodes[1] = new TreeHeight.Node(1, 4);
         tree.nodes[2] = new TreeHeight.Node(2, -1);
@@ -108,11 +92,5 @@ class TreeHeightTest {
         Assertions.assertEquals(expected, result);
     }
 
-    @Test
-    void test3height() {
-        TreeHeight.Height tree = new TreeHeight.Height();
-        tree.n = 100000;
-        tree.nodes = new TreeHeight.Node[tree.n];
 
-    }
 }

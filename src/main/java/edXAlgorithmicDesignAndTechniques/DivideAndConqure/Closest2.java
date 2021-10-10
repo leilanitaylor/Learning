@@ -50,7 +50,7 @@ public class Closest2 {
     }
 
     static class Point implements Comparable<Point> {
-        long x, y;
+        Long x, y;
 
         public Point(long x, long y) {
             this.x = x;
@@ -59,7 +59,14 @@ public class Closest2 {
 
         @Override
         public int compareTo(Point o) {
-            return o.y == y ? Long.signum(x - o.x) : Long.signum(y - o.y);
+            //return o.y == y ? Long.signum(x - o.x) : Long.signum(y - o.y);
+            return this.y.compareTo(o.y);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            Point obj = (Point)o;
+            return this.y.equals(obj.y);
         }
     }
 
@@ -73,7 +80,8 @@ public class Closest2 {
         xSortPoints(pointsX, 0, pointsX.length-1);
         
         // sort the pointsY according to y values
-        ySortPoints(pointsY, 0, pointsY.length-1);
+        //ySortPoints(pointsY, 0, pointsY.length-1);
+        Arrays.sort(pointsY);
         
         double distance = getDistance(pointsX, pointsY, 0, pointsX.length-1);
 
@@ -96,23 +104,12 @@ public class Closest2 {
         Point midPoint = pointsX[mid];
 
         // Divide points in the y sorted array around the vertical line of the midpoint
-        Point[] pointsYLeft = new Point[((right - left) / 2) + 1];
-        Point[] pointsYRight = new Point[pointsY.length - pointsYLeft.length];
-        // indices of the left and right subarrays
-        int leftIndex = 0;
-        int rightIndex = 0;
-        for (int index = 0; index < pointsY.length; index++) {
-            if (pointsY[index].x < midPoint.x || (pointsY[index].x == midPoint.x && pointsY[index].y <= midPoint.y)) {
-                pointsYLeft[leftIndex++] = pointsY[index];
-            } else {
-                pointsYRight[rightIndex++] = pointsY[index];
-            }
-        }
+        List<Point[]> yPoints = splitPointsY(pointsY, midPoint, left, right);
 
         // consider the vertical line passing through the mid-point, calculate the smallest distance distLeft
         // on left of mid-point and distRight on right side
-        double distLeft = getDistance(pointsX, pointsYLeft, left, mid);
-        double distRight = getDistance(pointsX, pointsYRight, mid+1, right);
+        double distLeft = getDistance(pointsX, yPoints.get(0), left, mid);
+        double distRight = getDistance(pointsX, yPoints.get(1), mid+1, right);
 
         // find min distance
         double minDist = Math.min(distLeft, distRight);
@@ -126,6 +123,28 @@ public class Closest2 {
         minDist = stripClosest(ptsToCheck, minDist);
 
         return minDist;
+    }
+
+    private static List<Point[]> splitPointsY(Point[] pointsY, Point midPoint, int left, int right) {
+        // Divide points in the y sorted array around the vertical line of the midpoint
+        List<Point[]> yPoints = new ArrayList<>();
+        Point[] pointsYLeft = new Point[((right - left) / 2) + 1];
+        Point[] pointsYRight = new Point[pointsY.length - pointsYLeft.length];
+        // indices of the left and right subarrays
+        int leftLength = pointsYLeft.length;
+        int rightLength = pointsYRight.length;
+        int leftIndex = 0;
+        int rightIndex = 0;
+        for (int index = 0; index < pointsY.length; index++) {
+            if (pointsY[index].x < midPoint.x || (pointsY[index].x == midPoint.x && pointsY[index].y <= midPoint.y)) {
+                pointsYLeft[leftIndex++] = pointsY[index];
+            } else {
+                pointsYRight[rightIndex++] = pointsY[index];
+            }
+        }
+        yPoints.add(pointsYLeft);
+        yPoints.add(pointsYRight);
+        return yPoints;
     }
 
     public static double stripClosest(List<Point> ptsToCheck, double minDist) {
@@ -174,58 +193,6 @@ public class Closest2 {
         double yDiffSq = Math.pow(diffY, 2);
         double distance = Math.sqrt(xDiffSq + yDiffSq);
         return distance;
-    }
-
-    public static void ySortPoints(Point[] pointsY, int left, int right) {
-        // base case
-        if (left >= right) return;
-        
-        // find mid-point
-        int mid = ((right - left) / 2) + left;
-        
-        // recursively sort the left half of the array
-        ySortPoints(pointsY, left, mid);
-        // recursively sort the right half of the array
-        ySortPoints(pointsY, mid+1, right);
-        
-        // merge the sorted arrays
-        yMergePoints(pointsY, left, mid, right);
-    }
-
-    private static void yMergePoints(Point[] pointsY, int left, int mid, int right) {
-        // create temp array of the left half of array
-        Point[] pointsLeft = Arrays.copyOfRange(pointsY, left, mid+1);
-        // create temp array of the right half of the array
-        Point[] pointsRight = Arrays.copyOfRange(pointsY, mid+1, right+1);
-        
-        // current index to evaluate of the left array and right array
-        int leftIndex = 0;
-        int rightIndex = 0;
-        
-        // index in the original array to place sorted value at
-        int sortIndex = left;
-        
-        // while not at the end of both temp arrays
-        while (leftIndex < pointsLeft.length && rightIndex < pointsRight.length) {
-            // if the value at the current index of the left array is less than the value at the current 
-            // index of the right array, insert at given (sorted) index in the original array
-            if (pointsLeft[leftIndex].y < pointsRight[rightIndex].y) {
-                pointsY[sortIndex++] = pointsLeft[leftIndex++];
-            } // otherwise, insert the right array value at sorted index in original array
-            else {
-                pointsY[sortIndex++] = pointsRight[rightIndex++];
-            }
-        }
-        
-        // if at the end of right temp array and left temp still has values, insert remaining values into sorted indices
-        while (leftIndex < pointsLeft.length) {
-            pointsY[sortIndex++] = pointsLeft[leftIndex++];
-        }
-        
-        // if at the end of left temp array and right temp still has values, insert remaining values into sorted indices
-        while (rightIndex < pointsRight.length) {
-            pointsY[sortIndex++] = pointsRight[rightIndex++];
-        }
     }
 
     public static void xSortPoints(Point[] pointsX, int left, int right) {
@@ -290,4 +257,5 @@ public class Closest2 {
         }
         return points;
     }
+
 }

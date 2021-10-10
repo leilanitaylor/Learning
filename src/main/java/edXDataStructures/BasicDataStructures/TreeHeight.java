@@ -109,11 +109,27 @@ search code in lecture, for example, we used a queue).
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class TreeHeight {
+
+    public static void main(String[] args) throws IOException {
+        new Thread(null, new Runnable() {
+            public void run() {
+                try {
+                    new TreeHeight().run();
+                } catch (IOException e) {
+                }
+            }
+        }, "1", 1 << 26).start();
+    }
+
+    public void run() throws IOException {
+        Height tree = new Height();
+        tree.read();
+        //System.out.println(tree.computeHeight());
+        System.out.println(tree.height());
+    }
 
     static class FastScanner {
         StringTokenizer tok = new StringTokenizer("");
@@ -130,6 +146,18 @@ public class TreeHeight {
         }
         int nextInt() throws IOException {
             return Integer.parseInt(next());
+        }
+    }
+
+    public static class Node {
+        int parent;
+        int key;
+        List<Node> children = new ArrayList<>();
+        int height = 1;
+
+        Node(int key, Integer parent) {
+            this.key = key;
+            this.parent = parent;
         }
     }
 
@@ -173,14 +201,12 @@ public class TreeHeight {
         }
 
         int height() {
-            int maxHeight = 0;
 
-            for (int index = 0; index < n; index++) {
-                if (nodes[index].parent != -1)
-                    nodes[nodes[index].parent].children.add(nodes[index]);
-            }
+            Node root = assignChildren();
 
+            int maxHeight = calculateHeight(root);
 
+            /*
             for (int index = 0; index < n; index++) {
                 if (nodes[index].children.size() == 0) {
                     int currentHeight = 1;
@@ -192,36 +218,39 @@ public class TreeHeight {
                     maxHeight = Math.max(maxHeight, currentHeight);
                 }
             }
+             */
+
             return maxHeight;
         }
-    }
 
-    public static void main(String[] args) throws IOException {
-        new Thread(null, new Runnable() {
-            public void run() {
-                try {
-                    new TreeHeight().run();
-                } catch (IOException e) {
+        public int calculateHeight(Node root) {
+            int maxHeight = 0;
+
+            Queue<Node> queue = new LinkedList<>();
+            queue.add(root);
+
+            while (queue.peek() != null) {
+                for (int i = 0; i < queue.peek().children.size(); i++) {
+                    queue.peek().children.get(i).height += queue.peek().height;
+                    queue.add(queue.peek().children.get(i));
+                }
+                maxHeight = Math.max(maxHeight, queue.peek().height);
+                queue.remove();
+            }
+
+            return maxHeight;
+        }
+
+        public Node assignChildren() {
+            Node base = null;
+            for (int index = 0; index < n; index++) {
+                if (nodes[index].parent != -1) {
+                    nodes[nodes[index].parent].children.add(nodes[index]);
+                } else {
+                    base = nodes[index];
                 }
             }
-        }, "1", 1 << 26).start();
-    }
-
-    public static class Node {
-        int parent;
-        int key;
-        List<Node> children = new ArrayList<>();
-
-        Node(int key, Integer parent) {
-            this.key = key;
-            this.parent = parent;
+            return base;
         }
-    }
-
-    public void run() throws IOException {
-        Height tree = new Height();
-        tree.read();
-        //System.out.println(tree.computeHeight());
-        System.out.println(tree.height());
     }
 }
