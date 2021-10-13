@@ -129,12 +129,14 @@ public class process_packages {
 
         ArrayList<Request> requests = ReadQueries(scanner);
         ArrayList<Response> responses = ProcessRequests(requests, buffer);
+
         PrintResponses(responses);
     }
 
     private static ArrayList<Request> ReadQueries(Scanner scanner) throws IOException {
         int request_count = scanner.nextInt();
         ArrayList<Request> requests = new ArrayList<>();
+
         for (int i = 0; i < request_count; ++i) {
             int arrival_time = scanner.nextInt();
             int process_time = scanner.nextInt();
@@ -145,6 +147,7 @@ public class process_packages {
 
     public static ArrayList<Response> ProcessRequests(ArrayList<Request> requests, Buffer buffer) {
         ArrayList<Response> responses = new ArrayList<>();
+
         for (int i = 0; i < requests.size(); ++i) {
             responses.add(buffer.Process(requests.get(i)));
         }
@@ -154,6 +157,7 @@ public class process_packages {
     public static void PrintResponses(ArrayList<Response> responses) {
         for (int i = 0; i < responses.size(); ++i) {
             Response response = responses.get(i);
+
             if (response.dropped) {
                 System.out.println(-1);
             } else {
@@ -214,6 +218,7 @@ class Buffer {
                 return new Response(false, currentFinishTime);
             }
         }
+
         return new Response(true, -1);
     }
 }
