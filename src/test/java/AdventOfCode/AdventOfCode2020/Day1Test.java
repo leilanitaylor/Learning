@@ -1,5 +1,6 @@
-package AdventOfCode;
+package AdventOfCode.AdventOfCode2020;
 
+import AdventOfCode.AdventOfCode2020.Day1;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,13 +8,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+class Day1Test {
 
-class AdventOfCode2020Test {
-
-    AdventOfCode2020 aoc;
+    Day1 aoc;
     @BeforeEach
-    public void setUp() {aoc = new AdventOfCode2020(); }
+    public void setUp() {aoc = new Day1(); }
 
     @Test
     void test1findSum() {

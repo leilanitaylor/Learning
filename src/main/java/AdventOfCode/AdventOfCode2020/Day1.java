@@ -1,4 +1,4 @@
-package AdventOfCode;
+package AdventOfCode.AdventOfCode2020;
 /*
 Day 1:
     Part 1: Find two entries that sum to 2020 and then multiply those two numbers
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AdventOfCode2020 {
+public class Day1 {
 
     public static void main(String[] args) throws FileNotFoundException {
         List<Integer> expenses = readFile();
