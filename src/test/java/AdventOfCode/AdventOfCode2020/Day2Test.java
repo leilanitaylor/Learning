@@ -49,4 +49,39 @@ class Day2Test {
         int result = d2.countValid(passwords);
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    void test1newValidityTest() {
+        Day2.pwPolicy testPw = new Day2.pwPolicy(1, 3, 'a', "abcde");
+        boolean expected = true;
+        boolean result = d2.newValidityTest(testPw);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test2newValidityTest() {
+        Day2.pwPolicy testPw = new Day2.pwPolicy(1, 3, 'b', "cdefg");
+        boolean expected = false;
+        boolean result = d2.newValidityTest(testPw);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test3newValidityTest() {
+        Day2.pwPolicy testPw = new Day2.pwPolicy(2, 9, 'c', "ccccccccc");
+        boolean expected = false;
+        boolean result = d2.newValidityTest(testPw);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test1newCountValid() {
+        List<Day2.pwPolicy> passwords = new ArrayList<>();
+        passwords.add(new Day2.pwPolicy(1, 3, 'a', "abcde"));
+        passwords.add(new Day2.pwPolicy(1, 3, 'b', "cdefg"));
+        passwords.add(new Day2.pwPolicy(2, 9, 'c', "ccccccccc"));
+        int expected = 1;
+        int result = d2.newCountValid(passwords);
+        Assertions.assertEquals(expected, result);
+    }
 }

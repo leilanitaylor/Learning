@@ -6,6 +6,9 @@ Day 2:
         appear for the password to be valid. For example, '1-3 a' means that the
         password must contain 'a' at least 1 time and at most 3 times. How many
         passwords are valid according to their policies?
+    Part 2: Password policy indicates two positions (1-based indexing). At least
+        one of the two positions must contain the required character. With new
+        policy, how many passwords are valid
  */
 
 import java.io.File;
@@ -23,8 +26,42 @@ public class Day2 {
         List<pwPolicy> passwords = readFile();
 
         int numValid = countValid(passwords);
+        int newValid = newCountValid(passwords);
 
         System.out.println("Number of valid passwords: " + numValid);
+        System.out.println("New number of valid: " + newValid);
+    }
+
+    protected static int newCountValid(List<pwPolicy> passwords) {
+        int count = 0;
+
+        for (int i = 0; i < passwords.size(); i++) {
+            boolean isValid = newValidityTest(passwords.get(i));
+            if (isValid) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    protected static boolean newValidityTest(pwPolicy pwPolicy) {
+        int firstPosition = pwPolicy.minOcc;
+        int secondPosition = pwPolicy.maxOcc;
+        char reqChar = pwPolicy.reqChar;
+        String password = pwPolicy.password;
+
+        if (password.charAt(firstPosition-1) == reqChar) {
+            if (password.charAt(secondPosition-1) == reqChar) {
+                return false;
+            }
+            return true;
+        }
+        if (password.charAt(secondPosition-1) == reqChar) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static int countValid(List<pwPolicy> passwords) {
