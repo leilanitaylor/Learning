@@ -3,6 +3,7 @@ package AdventOfCode;
 Day 1:
     Part 1: Find two entries that sum to 2020 and then multiply those two numbers
         together
+    Part 2: Find three entries that sum to 2020 and multiply those numbers together
  */
 
 import java.io.File;
@@ -19,7 +20,8 @@ public class AdventOfCode2020 {
         List<Integer> expenses = readFile();
 
         List<Integer> sumTo2020 = new ArrayList<>();
-        sumTo2020 = findIntsSumTo2020(expenses);
+        int howManyToSum = 3;
+        sumTo2020 = findIntsSumTo2020(expenses, howManyToSum);
 
         int productOfExpenses = findProduct(sumTo2020);
 
@@ -36,25 +38,34 @@ public class AdventOfCode2020 {
         return product;
     }
 
-    protected static List<Integer> findIntsSumTo2020(List<Integer> expenses) {
-        List<Integer> IntsWithSum = new ArrayList<>();
+    protected static List<Integer> findIntsSumTo2020(List<Integer> expenses, int howManyToSum) {
+        List<Integer> intsWithSum = new ArrayList<>();
+        int[] intsCheck = new int[howManyToSum];
 
-        for (int i = 0; i < expenses.size() - 1; i++) {
-            int firstExpense = expenses.get(i);
-            for (int j = i+1; j < expenses.size(); j++) {
-                int secondExpense = expenses.get(j);
-                int sumOfInts = findSum(firstExpense, secondExpense);
-                if (sumOfInts == 2020) {
-                    IntsWithSum.add(firstExpense);
-                    IntsWithSum.add(secondExpense);
+        for (int i = 0; i < expenses.size() - 2; i++) {
+            intsCheck[0] = expenses.get(i);
+            for (int j = i+1; j < expenses.size() - 1; j++) {
+                intsCheck[1] = expenses.get(j);
+                for (int k = j + 1; k < expenses.size(); k++) {
+                    intsCheck[2] = expenses.get(k);
+                    int sumOfInts = findSum(intsCheck);
+                    if (sumOfInts == 2020) {
+                        for (int l = 0; l < intsCheck.length; l++) {
+                            intsWithSum.add(intsCheck[l]);
+                        }
+                    }
                 }
             }
         }
-        return IntsWithSum;
+        return intsWithSum;
     }
 
-    protected static int findSum(Integer firstExpense, Integer secondExpense) {
-        return firstExpense + secondExpense;
+    protected static int findSum(int[] intsToCheck) {
+        int sumOfInts = 0;
+        for (int i = 0; i < intsToCheck.length; i++) {
+            sumOfInts += intsToCheck[i];
+        }
+        return sumOfInts;
     }
 
     private static List<Integer> readFile() throws FileNotFoundException {
