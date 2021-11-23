@@ -199,8 +199,113 @@ class Day3Test {
         mapOfPaths.add("#.##...#...");
         mapOfPaths.add("#...##....#");
         mapOfPaths.add(".#..#...#.#");
+        int moveRight = 3;
+        int moveDown = 1;
         int expected = 7;
-        int result = d3.countCollisions(mapOfPaths);
+        int result = d3.countCollisions(mapOfPaths, moveRight, moveDown);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test2countCollisions() {
+        List<String> mapOfPaths = new ArrayList<>();
+        mapOfPaths.add("..##.......");
+        mapOfPaths.add("#...#...#..");
+        mapOfPaths.add(".#....#..#.");
+        mapOfPaths.add("..#.#...#.#");
+        mapOfPaths.add(".#...##..#.");
+        mapOfPaths.add("..#.##.....");
+        mapOfPaths.add(".#.#.#....#");
+        mapOfPaths.add(".#........#");
+        mapOfPaths.add("#.##...#...");
+        mapOfPaths.add("#...##....#");
+        mapOfPaths.add(".#..#...#.#");
+        int moveRight = 1;
+        int moveDown = 1;
+        int expected = 2;
+        int result = d3.countCollisions(mapOfPaths, moveRight, moveDown);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test3countCollisions() {
+        List<String> mapOfPaths = new ArrayList<>();
+        mapOfPaths.add("..##.......");
+        mapOfPaths.add("#...#...#..");
+        mapOfPaths.add(".#....#..#.");
+        mapOfPaths.add("..#.#...#.#");
+        mapOfPaths.add(".#...##..#.");
+        mapOfPaths.add("..#.##.....");
+        mapOfPaths.add(".#.#.#....#");
+        mapOfPaths.add(".#........#");
+        mapOfPaths.add("#.##...#...");
+        mapOfPaths.add("#...##....#");
+        mapOfPaths.add(".#..#...#.#");
+        int moveRight = 5;
+        int moveDown = 1;
+        int expected = 3;
+        int result = d3.countCollisions(mapOfPaths, moveRight, moveDown);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test4countcollisions() {
+        List<String> mapOfPaths = new ArrayList<>();
+        mapOfPaths.add("..##.......");
+        mapOfPaths.add("#...#...#..");
+        mapOfPaths.add(".#....#..#.");
+        mapOfPaths.add("..#.#...#.#");
+        mapOfPaths.add(".#...##..#.");
+        mapOfPaths.add("..#.##.....");
+        mapOfPaths.add(".#.#.#....#");
+        mapOfPaths.add(".#........#");
+        mapOfPaths.add("#.##...#...");
+        mapOfPaths.add("#...##....#");
+        mapOfPaths.add(".#..#...#.#");
+        int moveRight = 7;
+        int moveDown = 1;
+        int expected = 4;
+        int result = d3.countCollisions(mapOfPaths, moveRight, moveDown);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test5countCollisions() {
+        List<String> mapOfPaths = new ArrayList<>();
+        mapOfPaths.add("..##.......");
+        mapOfPaths.add("#...#...#..");
+        mapOfPaths.add(".#....#..#.");
+        mapOfPaths.add("..#.#...#.#");
+        mapOfPaths.add(".#...##..#.");
+        mapOfPaths.add("..#.##.....");
+        mapOfPaths.add(".#.#.#....#");
+        mapOfPaths.add(".#........#");
+        mapOfPaths.add("#.##...#...");
+        mapOfPaths.add("#...##....#");
+        mapOfPaths.add(".#..#...#.#");
+        int moveRight = 1;
+        int moveDown = 2;
+        int expected = 2;
+        int result = d3.countCollisions(mapOfPaths, moveRight, moveDown);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test1getProduct() {
+        List<String> mapOfPaths = new ArrayList<>();
+        mapOfPaths.add("..##.......");
+        mapOfPaths.add("#...#...#..");
+        mapOfPaths.add(".#....#..#.");
+        mapOfPaths.add("..#.#...#.#");
+        mapOfPaths.add(".#...##..#.");
+        mapOfPaths.add("..#.##.....");
+        mapOfPaths.add(".#.#.#....#");
+        mapOfPaths.add(".#........#");
+        mapOfPaths.add("#.##...#...");
+        mapOfPaths.add("#...##....#");
+        mapOfPaths.add(".#..#...#.#");
+        int expected = 336;
+        long result = d3.getProduct(mapOfPaths);
         Assertions.assertEquals(expected, result);
     }
 }
