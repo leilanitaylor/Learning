@@ -98,4 +98,52 @@ class Day6Test {
         int result = d6.getCounts(groupAnswers);
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    void test1getGroupCount() {
+        List<String> currentGroup = Arrays.asList("abc");
+        int expected = 3;
+        int result = d6.getGroupCount(currentGroup);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test2getGroupCount() {
+        List<String> currentGroup = Arrays.asList("a", "b", "c");
+        int expected = 0;
+        int result = d6.getGroupCount(currentGroup);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test3getGroupCount() {
+        List<String> currentGroup = Arrays.asList("ab", "ac");
+        int expected = 1;
+        int result = d6.getGroupCount(currentGroup);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test4getGroupCount() {
+        List<String> currentGroup = Arrays.asList("a", "a", "a", "a");
+        int expected = 1;
+        int result = d6.getGroupCount(currentGroup);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test5getGroupCount() {
+        List<String> currentGroup = Arrays.asList("b");
+        int expected = 1;
+        int result = d6.getGroupCount(currentGroup);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test1sumGroupCounts() {
+        List<String> answers = Arrays.asList("abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b");
+        int expected = 6;
+        int result = d6.sumGroupCounts(answers);
+        Assertions.assertEquals(expected, result);
+    }
 }

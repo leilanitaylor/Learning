@@ -6,29 +6,77 @@ Day 6:
         are on a single line (the ones they answered yes). Duplicates within a group
         only count once.
         What is the sum of those counts?
+    Part 2: You need to identify the questions to which everyone in the group answered
+        "yes", not anyone. Find the new count.
  */
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Day6 {
 
     public static void main(String[] args) throws FileNotFoundException {
         List<String> answers = readFile();
 
+        /*
         List<String> groups = setGroups(answers);
+        System.out.println("Number of groups: " + groups.size());
 
         List<HashSet<Character>> groupAnswers = getGroupAnswers(groups);
 
         int sumOfCounts = getCounts(groupAnswers);
 
         System.out.println("Sum of Counts: " + sumOfCounts);
+
+         */
+
+        int newCounts = sumGroupCounts(answers);
+        System.out.println("New sum of counts: " + newCounts);
+    }
+
+    protected static int sumGroupCounts(List<String> answers) {
+        List<String> currentGroup = new ArrayList<>();
+        int count = 0;
+        int numberOfGroups = 0;
+
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) != "") {
+                currentGroup.add(answers.get(i));
+            } else if (answers.get(i) == "") {
+                int groupCount = getGroupCount(currentGroup);
+                count += groupCount;
+                numberOfGroups++;
+                System.out.println("Current group count: " + groupCount);
+                System.out.println("Current total count for " + numberOfGroups + ": " + count);
+                while (currentGroup.size() != 0){
+                    currentGroup.remove(0);
+                }
+            }
+        }
+        int groupCount = getGroupCount((currentGroup));
+        count += groupCount;
+        return count;
+    }
+
+    protected static int getGroupCount(List<String> currentGroup) {
+        Map<Character, Integer> groupAnswers = new HashMap<>();
+        int groupCount = 0;
+
+        for (int i = 0; i < currentGroup.size(); i++) {
+            String currentAnswers = currentGroup.get(i);
+            for (int j = 0; j < currentAnswers.length(); j++) {
+                int currentCount = groupAnswers.getOrDefault(currentAnswers.charAt(j), 0);
+                groupAnswers.put(currentAnswers.charAt(j), currentCount+1);
+            }
+        }
+        for (Map.Entry<Character, Integer> e : groupAnswers.entrySet()) {
+            if (e.getValue() == currentGroup.size())
+                groupCount++;
+        }
+        return groupCount;
     }
 
     protected static int getCounts(List<HashSet<Character>> groupAnswers) {
