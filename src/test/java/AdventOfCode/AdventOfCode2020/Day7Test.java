@@ -22,15 +22,20 @@ class Day7Test {
     }
 
     @Test
-    void test1getChldrenBagColors() {
+    void test1getChildBagColors() {
         String rule = "light red bags contain 1 bright white bag, 2 muted yellow bags.";
-        List<String> childrenBagColors = new ArrayList<>();
-        int currentIndex = 11;
+        List<String[][]> childrenBagColors = new ArrayList<>();
+        int currentIndex = 10;
         int test = d7.getChildBagColor(childrenBagColors, rule, currentIndex);
-        List<String> expected = Arrays.asList("bright white");
+        List<String[][]> expected = new ArrayList<>();
+        String[][] childBag = {{"1"}, {"bright white"}};
+        expected.add(childBag);
+        int endingIndex = 37;
+        Assertions.assertEquals(endingIndex, test);
         Assertions.assertEquals(expected.size(), childrenBagColors.size());
         for (int i = 0; i < expected.size(); i++) {
-            Assertions.assertEquals(expected.get(i), childrenBagColors.get(i));
+            Assertions.assertTrue(expected.get(i)[0][0].equals(childrenBagColors.get(i)[0][0]));
+            Assertions.assertTrue(expected.get(i)[1][0].equals(childrenBagColors.get(i)[1][0]));
         }
     }
 
@@ -121,35 +126,98 @@ class Day7Test {
 
     @Test
     void test1createNewChild() {
-        List<Day7.Node> rules = new ArrayList<>();
+        List<Day7.Node> bags = new ArrayList<>();
         Day7.Node currentParrent = new Day7.Node("light red", true);
-        rules.add(currentParrent);
+        bags.add(currentParrent);
         String bagColor = "bright white";
         List<Day7.Node> expected = new ArrayList<>();
         expected.add(new Day7.Node("light red", true));
         expected.add(new Day7.Node("bright white", expected.get(0)));
-        expected.get(0).childrenBags.add(expected.get(1));
-        d7.createNewChild(rules, bagColor, currentParrent, 0);
-        Assertions.assertEquals(expected.size(), rules.size());
+        //expected.get(0).childrenBags.add(expected.get(1));
+        int childBagIndex = 1;
+        int result = d7.createNewChild(bags, bagColor, currentParrent, 0);
+        Assertions.assertEquals(childBagIndex, result);
+        Assertions.assertEquals(expected.size(), bags.size());
         for (int i = 0; i < expected.size(); i++) {
-            Assertions.assertEquals(expected.get(i).bagColor, rules.get(i).bagColor);
+            Assertions.assertEquals(expected.get(i).bagColor, bags.get(i).bagColor);
             for (int j = 0; j < expected.get(i).childrenBags.size(); j++) {
-                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, rules.get(i).childrenBags.get(j).bagColor);
+                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, bags.get(i).childrenBags.get(j).bagColor);
             }
-            Assertions.assertEquals(expected.get(i).isBase, rules.get(i).isBase);
-            Assertions.assertEquals(expected.get(i).parentBag.size(), rules.get(i).parentBag.size());
+            Assertions.assertEquals(expected.get(i).isBase, bags.get(i).isBase);
+            Assertions.assertEquals(expected.get(i).parentBag.size(), bags.get(i).parentBag.size());
             for (int j = 0; j < expected.get(i).parentBag.size(); j++) {
-                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, rules.get(i).parentBag.get(j).bagColor);
+                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, bags.get(i).parentBag.get(j).bagColor);
+            }
+        }
+    }
+
+    @Test
+    void test1addChildBag() {
+        List<Day7.Node> bags = new ArrayList<>();
+        Day7.Node currentParrent = new Day7.Node("light red", true);
+        bags.add(currentParrent);
+        bags.add(new Day7.Node("bright white", bags.get(0)));
+        int currentBagIndex = 0;
+        int childBagIndex = 1;
+        int numOfChildBag = 1;
+        List<Day7.Node> expected = new ArrayList<>();
+        expected.add(new Day7.Node("light red", true));
+        expected.add(new Day7.Node("bright white", expected.get(0)));
+        expected.get(0).childrenBags.add(expected.get(1));
+        d7.addChildBag(currentBagIndex, childBagIndex, numOfChildBag, bags);
+        Assertions.assertEquals(expected.size(), bags.size());
+        for (int i = 0; i < expected.size(); i++) {
+            Assertions.assertEquals(expected.get(i).bagColor, bags.get(i).bagColor);
+            for (int j = 0; j < expected.get(i).childrenBags.size(); j++) {
+                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, bags.get(i).childrenBags.get(j).bagColor);
+            }
+            Assertions.assertEquals(expected.get(i).isBase, bags.get(i).isBase);
+            Assertions.assertEquals(expected.get(i).parentBag.size(), bags.get(i).parentBag.size());
+            for (int j = 0; j < expected.get(i).parentBag.size(); j++) {
+                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, bags.get(i).parentBag.get(j).bagColor);
+            }
+        }
+    }
+
+    @Test
+    void test2addChildBag() {
+        List<Day7.Node> bags = new ArrayList<>();
+        Day7.Node currentParrent = new Day7.Node("light red", true);
+        bags.add(currentParrent);
+        bags.add(new Day7.Node("muted yellow", bags.get(0)));
+        int currentBagIndex = 0;
+        int childBagIndex = 1;
+        int numOfChildBag = 2;
+        List<Day7.Node> expected = new ArrayList<>();
+        expected.add(new Day7.Node("light red", true));
+        expected.add(new Day7.Node("muted yellow", expected.get(0)));
+        expected.get(0).childrenBags.add(expected.get(1));
+        expected.get(0).childrenBags.add(expected.get(1));
+        d7.addChildBag(currentBagIndex, childBagIndex, numOfChildBag, bags);
+        Assertions.assertEquals(expected.size(), bags.size());
+        for (int i = 0; i < expected.size(); i++) {
+            Assertions.assertEquals(expected.get(i).bagColor, bags.get(i).bagColor);
+            for (int j = 0; j < expected.get(i).childrenBags.size(); j++) {
+                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, bags.get(i).childrenBags.get(j).bagColor);
+            }
+            Assertions.assertEquals(expected.get(i).isBase, bags.get(i).isBase);
+            Assertions.assertEquals(expected.get(i).parentBag.size(), bags.get(i).parentBag.size());
+            for (int j = 0; j < expected.get(i).parentBag.size(); j++) {
+                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, bags.get(i).parentBag.get(j).bagColor);
             }
         }
     }
 
     @Test
     void test1setChildrenBags() {
-        List<Day7.Node> rules = new ArrayList<>();
+        List<Day7.Node> bags = new ArrayList<>();
         Day7.Node currentParrent = new Day7.Node("light red", true);
-        rules.add(currentParrent);
-        List<String> childrenBagColors = Arrays.asList("bright white", "muted yellow");
+        bags.add(currentParrent);
+        List<String[][]> childrenBagColors = new ArrayList<>();
+        String[][] childBag1 = {{"1"}, {"bright white"}};
+        String[][] childBag2 = {{"2"}, {"muted yellow"}};
+        childrenBagColors.add(childBag1);
+        childrenBagColors.add(childBag2);
         int currentBagIndex = 0;
         List<Day7.Node> expected = new ArrayList<>();
         expected.add(new Day7.Node("light red", true));
@@ -157,17 +225,18 @@ class Day7Test {
         expected.add(new Day7.Node("muted yellow", currentParrent));
         expected.get(0).childrenBags.add(expected.get(1));
         expected.get(0).childrenBags.add(expected.get(2));
-        d7.setChildrenBags(rules, childrenBagColors, currentBagIndex);
-        Assertions.assertEquals(expected.size(), rules.size());
+        expected.get(0).childrenBags.add(expected.get(2));
+        d7.setChildrenBags(bags, childrenBagColors, currentBagIndex);
+        Assertions.assertEquals(expected.size(), bags.size());
         for (int i = 0; i < expected.size(); i++) {
-            Assertions.assertEquals(expected.get(i).bagColor, rules.get(i).bagColor);
+            Assertions.assertEquals(expected.get(i).bagColor, bags.get(i).bagColor);
             for (int j = 0; j < expected.get(i).childrenBags.size(); j++) {
-                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, rules.get(i).childrenBags.get(j).bagColor);
+                Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, bags.get(i).childrenBags.get(j).bagColor);
             }
-            Assertions.assertEquals(expected.get(i).isBase, rules.get(i).isBase);
-            Assertions.assertEquals(expected.get(i).parentBag.size(), rules.get(i).parentBag.size());
+            Assertions.assertEquals(expected.get(i).isBase, bags.get(i).isBase);
+            Assertions.assertEquals(expected.get(i).parentBag.size(), bags.get(i).parentBag.size());
             for (int j = 0; j < expected.get(i).parentBag.size(); j++) {
-                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, rules.get(i).parentBag.get(j).bagColor);
+                Assertions.assertEquals(expected.get(i).parentBag.get(j).bagColor, bags.get(i).parentBag.get(j).bagColor);
             }
         }
     }
@@ -178,13 +247,18 @@ class Day7Test {
         Day7.Node currentParrent = new Day7.Node("light red", true);
         rules.add(currentParrent);
         rules.add(new Day7.Node("bright white", true));
-        List<String> childrenBagColors = Arrays.asList("bright white", "muted yellow");
+        List<String[][]> childrenBagColors = new ArrayList<>();
+        String[][] childBag1 = {{"1"}, {"bright white"}};
+        String[][] childBag2 = {{"2"}, {"muted yellow"}};
+        childrenBagColors.add(childBag1);
+        childrenBagColors.add(childBag2);
         int currentBagIndex = 0;
         List<Day7.Node> expected = new ArrayList<>();
         expected.add(new Day7.Node("light red", true));
         expected.add(new Day7.Node("bright white", currentParrent));
         expected.add(new Day7.Node("muted yellow", currentParrent));
         expected.get(0).childrenBags.add(expected.get(1));
+        expected.get(0).childrenBags.add(expected.get(2));
         expected.get(0).childrenBags.add(expected.get(2));
         expected.get(1).isBase = true;
         d7.setChildrenBags(rules, childrenBagColors, currentBagIndex);
@@ -245,10 +319,16 @@ class Day7Test {
         expected.add(new Day7.Node("muted yellow", expected.get(0)));
         expected.get(0).childrenBags.add(expected.get(1));
         expected.get(0).childrenBags.add(expected.get(2));
+        expected.get(0).childrenBags.add(expected.get(2));
         expected.add(new Day7.Node("dark orange", true));
         expected.get(1).parentBag.add(expected.get(3));
         expected.get(2).parentBag.add(expected.get(3));
         expected.get(3).childrenBags.add(expected.get(1));
+        expected.get(3).childrenBags.add(expected.get(1));
+        expected.get(3).childrenBags.add(expected.get(1));
+        expected.get(3).childrenBags.add(expected.get(2));
+        expected.get(3).childrenBags.add(expected.get(2));
+        expected.get(3).childrenBags.add(expected.get(2));
         expected.get(3).childrenBags.add(expected.get(2));
         expected.get(1).isBase = true;
         expected.add(new Day7.Node("shiny gold", expected.get(1)));
@@ -257,21 +337,45 @@ class Day7Test {
         expected.get(4).parentBag.add(expected.get(2));
         expected.add(new Day7.Node("faded blue", expected.get(2)));
         expected.get(2).childrenBags.add(expected.get(4));
+        expected.get(2).childrenBags.add(expected.get(4));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
+        expected.get(2).childrenBags.add(expected.get(5));
         expected.get(2).childrenBags.add(expected.get(5));
         expected.get(4).isBase = true;
         expected.add(new Day7.Node("dark olive", expected.get(4)));
         expected.add(new Day7.Node("vibrant plum", expected.get(4)));
         expected.get(4).childrenBags.add(expected.get(6));
         expected.get(4).childrenBags.add(expected.get(7));
+        expected.get(4).childrenBags.add(expected.get(7));
         expected.get(6).isBase = true;
         expected.get(5).parentBag.add(expected.get(6));
         expected.add(new Day7.Node("dotted black", expected.get(6)));
         expected.get(6).childrenBags.add(expected.get(5));
+        expected.get(6).childrenBags.add(expected.get(5));
+        expected.get(6).childrenBags.add(expected.get(5));
+        expected.get(6).childrenBags.add(expected.get(8));
+        expected.get(6).childrenBags.add(expected.get(8));
+        expected.get(6).childrenBags.add(expected.get(8));
         expected.get(6).childrenBags.add(expected.get(8));
         expected.get(7).isBase = true;
         expected.get(5).parentBag.add(expected.get(7));
         expected.get(8).parentBag.add(expected.get(7));
         expected.get(7).childrenBags.add(expected.get(5));
+        expected.get(7).childrenBags.add(expected.get(5));
+        expected.get(7).childrenBags.add(expected.get(5));
+        expected.get(7).childrenBags.add(expected.get(5));
+        expected.get(7).childrenBags.add(expected.get(5));
+        expected.get(7).childrenBags.add(expected.get(8));
+        expected.get(7).childrenBags.add(expected.get(8));
+        expected.get(7).childrenBags.add(expected.get(8));
+        expected.get(7).childrenBags.add(expected.get(8));
+        expected.get(7).childrenBags.add(expected.get(8));
         expected.get(7).childrenBags.add(expected.get(8));
         expected.get(5).isBase = true;
         expected.get(8).isBase = true;
@@ -279,6 +383,7 @@ class Day7Test {
         Assertions.assertEquals(expected.size(), result.size());
         for (int i = 0; i < expected.size(); i++) {
             Assertions.assertEquals(expected.get(i).bagColor, result.get(i).bagColor);
+            Assertions.assertEquals(expected.get(i).childrenBags.size(), result.get(i).childrenBags.size());
             for (int j = 0; j < expected.get(i).childrenBags.size(); j++) {
                 Assertions.assertEquals(expected.get(i).childrenBags.get(j).bagColor, result.get(i).childrenBags.get(j).bagColor);
             }
@@ -466,6 +571,114 @@ class Day7Test {
         String desiredBag = "shiny gold";
         int expected = 4;
         int result = d7.countUltimateParents(bags, desiredBag);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test1getCount() {
+        List<Day7.Node> bags = new ArrayList<>();
+        bags.add(new Day7.Node("light red", true));
+        bags.add(new Day7.Node("bright white", bags.get(0)));
+        bags.add(new Day7.Node("muted yellow", bags.get(0)));
+        bags.get(0).childrenBags.add(bags.get(1));
+        bags.get(0).childrenBags.add(bags.get(2));
+        bags.get(0).childrenBags.add(bags.get(2));
+        bags.add(new Day7.Node("dark orange", true));
+        bags.get(1).parentBag.add(bags.get(3));
+        bags.get(2).parentBag.add(bags.get(3));
+        bags.get(3).childrenBags.add(bags.get(1));
+        bags.get(3).childrenBags.add(bags.get(1));
+        bags.get(3).childrenBags.add(bags.get(1));
+        bags.get(3).childrenBags.add(bags.get(2));
+        bags.get(3).childrenBags.add(bags.get(2));
+        bags.get(3).childrenBags.add(bags.get(2));
+        bags.get(3).childrenBags.add(bags.get(2));
+        bags.get(1).isBase = true;
+        bags.add(new Day7.Node("shiny gold", bags.get(1)));
+        bags.get(1).childrenBags.add(bags.get(4));
+        bags.get(2).isBase = true;
+        bags.get(4).parentBag.add(bags.get(2));
+        bags.add(new Day7.Node("faded blue", bags.get(2)));
+        bags.get(2).childrenBags.add(bags.get(4));
+        bags.get(2).childrenBags.add(bags.get(4));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(2).childrenBags.add(bags.get(5));
+        bags.get(4).isBase = true;
+        bags.add(new Day7.Node("dark olive", bags.get(4)));
+        bags.add(new Day7.Node("vibrant plum", bags.get(4)));
+        bags.get(4).childrenBags.add(bags.get(6));
+        bags.get(4).childrenBags.add(bags.get(7));
+        bags.get(4).childrenBags.add(bags.get(7));
+        bags.get(6).isBase = true;
+        bags.get(5).parentBag.add(bags.get(6));
+        bags.add(new Day7.Node("dotted black", bags.get(6)));
+        bags.get(6).childrenBags.add(bags.get(5));
+        bags.get(6).childrenBags.add(bags.get(5));
+        bags.get(6).childrenBags.add(bags.get(5));
+        bags.get(6).childrenBags.add(bags.get(8));
+        bags.get(6).childrenBags.add(bags.get(8));
+        bags.get(6).childrenBags.add(bags.get(8));
+        bags.get(6).childrenBags.add(bags.get(8));
+        bags.get(7).isBase = true;
+        bags.get(5).parentBag.add(bags.get(7));
+        bags.get(8).parentBag.add(bags.get(7));
+        bags.get(7).childrenBags.add(bags.get(5));
+        bags.get(7).childrenBags.add(bags.get(5));
+        bags.get(7).childrenBags.add(bags.get(5));
+        bags.get(7).childrenBags.add(bags.get(5));
+        bags.get(7).childrenBags.add(bags.get(5));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(7).childrenBags.add(bags.get(8));
+        bags.get(5).isBase = true;
+        bags.get(8).isBase = true;
+        int desiredBagIndex = 4;
+        int expected = 32;
+        int result = d7.getCount(bags, desiredBagIndex);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void test2getCount() {
+        List<Day7.Node> bags = new ArrayList<>();
+        bags.add(new Day7.Node("shiny gold", true));
+        bags.add(new Day7.Node("dark red", bags.get(0)));
+        bags.get(0).childrenBags.add(bags.get(1));
+        bags.get(0).childrenBags.add(bags.get(1));
+        bags.get(1).isBase = true;
+        bags.add(new Day7.Node("dark orange", bags.get(1)));
+        bags.get(1).childrenBags.add(bags.get(2));
+        bags.get(1).childrenBags.add(bags.get(2));
+        bags.get(2).isBase = true;
+        bags.add(new Day7.Node("dark yellow", bags.get(2)));
+        bags.get(2).childrenBags.add(bags.get(3));
+        bags.get(2).childrenBags.add(bags.get(3));
+        bags.get(3).isBase = true;
+        bags.add(new Day7.Node("dark green", bags.get(3)));
+        bags.get(3).childrenBags.add(bags.get(4));
+        bags.get(3).childrenBags.add(bags.get(4));
+        bags.get(4).isBase = true;
+        bags.add(new Day7.Node("dark blue", bags.get(4)));
+        bags.get(4).childrenBags.add(bags.get(5));
+        bags.get(4).childrenBags.add(bags.get(5));
+        bags.get(5).isBase = true;
+        bags.add(new Day7.Node("dark violet", bags.get(5)));
+        bags.get(5).childrenBags.add(bags.get(6));
+        bags.get(5).childrenBags.add(bags.get(6));
+        bags.get(6).isBase = true;
+        int bagIndex = 0;
+        int expected = 126;
+        int result = d7.getCount(bags, bagIndex);
         Assertions.assertEquals(expected, result);
     }
 }
