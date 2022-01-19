@@ -41,30 +41,35 @@ public class Day7 {
 
     public static void main(String[] args) throws FileNotFoundException {
         List<String> rulesFile = readFile();
-
-        List<Node> bags = setRules(rulesFile);
+/*
+        List<Bag> bags = setRules(rulesFile);
 
 
         String desiredBag = "shiny gold";
 
-        //int numUltimateParentBags = countUltimateParents(bags, desiredBag);
-        //System.out.println("Number of bags that can ultimately hold your " + desiredBag + " bag is: " + numUltimateParentBags);
+
+        int numUltimateParentBags = countUltimateParents(bags, desiredBag);
+        System.out.println("Number of bags that can ultimately hold your " + desiredBag + " bag is: " + numUltimateParentBags);
 
         int requiredBags = countNestedBags(bags, desiredBag);
         System.out.println("Number of bags in your " + desiredBag + " bag is: " + requiredBags);
-    }
 
-    protected static int countNestedBags(List<Node> bags, String desiredBag) {
+         */
+    }
+/*
+    protected static int countNestedBags(List<Bag> bags, String desiredBag) {
         int desiredBagIndex = getIndex(bags, desiredBag);
         int count = getCount(bags, desiredBagIndex);
 
         return count;
     }
 
-    protected static int getCount(List<Node> bags, int bagIndex) {
+
+
+    protected static int getCount(List<Bag> bags, int bagIndex) {
         int count = 0;
 
-        Queue<Node> queue = new LinkedList<>();
+        Queue<Bag> queue = new LinkedList<>();
         queue.add(bags.get(bagIndex));
 
         while (queue.peek() != null) {
@@ -79,11 +84,11 @@ public class Day7 {
         return count-1;
     }
 
-    protected static List<Node> setRules(List<String> rulesFile) {
-        List<Node> bags = new ArrayList<>();
+    protected static List<Bag> setRules(List<String> rulesFile) {
+        List<Bag> bags = new ArrayList<>();
 
         for (int i = 0; i < rulesFile.size(); i++) {
-            createRule(rulesFile.get(i), bags);
+            bags.add(createRule(rulesFile.get(i)));
         }
 
         //System.out.println(bags.size());
@@ -91,30 +96,33 @@ public class Day7 {
         return bags;
     }
 
-    protected static void createRule(String rule, List<Node> bags) {
-        int currentIndex = 0;
+    protected static Bag createRule(String rule) {
 
-        String bagColor = getBagColor(rule, currentIndex);
-        currentIndex = bagColor.length()+1;
+        rule.replaceAll(" bag", "").replaceAll(" bags", "").replaceAll(" contain", "");
+        String[] parsedRule = rule.split("[ ,.]+");
 
-        List<String[][]> childrenBagColors = new ArrayList<>();
-        while (currentIndex < rule.length()-1) {
-            currentIndex = getChildBagColor(childrenBagColors, rule, currentIndex);
+        String bagColor1 = parsedRule[0] + " " + parsedRule[1];
+        Bag currentBag = new Bag(bagColor1, 1);
+
+        if (!parsedRule[parsedRule.length-1].equals("other")) {
+            for (int i = 2; i < parsedRule.length; i+=3) {
+                int numBags = Integer.parseInt(parsedRule[i]);
+                String childBagColor = parsedRule[i+1] + " " + parsedRule[i+2];
+                Bag child = new Bag(childBagColor, numBags);
+                child.setParentBag(currentBag);
+                currentBag.addChildBag(child);
+            }
         }
 
-        setCurrentBag(bags, bagColor);
-
-        int currentBagIndex = getIndex(bags, bagColor);
-
-        setChildrenBags(bags, childrenBagColors, currentBagIndex);
+        return currentBag;
     }
 
-    protected static int countUltimateParents(List<Node> bags, String desiredBag) {
+    protected static int countUltimateParents(List<Bag> bags, String desiredBag) {
         int count = 0;
 
         for (int i = 0; i < bags.size(); i++) {
             if (bags.get(i).isBase == true) {
-                Node currentBag = bags.get(i);
+                Bag currentBag = bags.get(i);
                 boolean isCurrentParentOfDesired = findDesired(desiredBag, currentBag);
                 if (isCurrentParentOfDesired == true)
                     count++;
@@ -123,10 +131,10 @@ public class Day7 {
         return count;
     }
 
-    protected static boolean findDesired(String desiredBag, Node currentBag) {
+    protected static boolean findDesired(String desiredBag, Bag currentBag) {
         boolean canContainDesired = false;
 
-        Queue<Node> queue = new LinkedList<>();
+        Queue<Bag> queue = new LinkedList<>();
         queue.add(currentBag);
 
         while (queue.peek() != null) {
@@ -142,125 +150,7 @@ public class Day7 {
         return canContainDesired;
     }
 
-    protected static void setChildrenBags(List<Node> bags, List<String[][]> childrenBagColors, int currentBagIndex) {
-        if (childrenBagColors.size() == 0)
-            return;
-        Node currentBag = bags.get(currentBagIndex);
-        for (int i = 0; i < childrenBagColors.size(); i++) {
-            boolean currentChildExists = false;
-            String childBagColor = childrenBagColors.get(i)[1][0];
-            int numOfChildBag = Integer.parseInt(childrenBagColors.get(i)[0][0]);
-            for (int j = 0; j < bags.size(); j++) {
-                if (bags.get(j).bagColor.equals(childBagColor)) {
-                    int childBagIndex = j;
-                    bags.get(j).parentBag.add(currentBag);
-                    //bags.get(currentBagIndex).childrenBags.add(bags.get(j));
-                    addChildBag(currentBagIndex, childBagIndex, numOfChildBag, bags);
-                    currentChildExists = true;
-                    break;
-                }
-            }
-            if (currentChildExists == false) {
-                int childBagIndex = createNewChild(bags, childBagColor, currentBag, currentBagIndex);
-                addChildBag(currentBagIndex, childBagIndex, numOfChildBag, bags);
-            }
-        }
-    }
-
-    protected static void addChildBag(int currentBagIndex, int childBagIndex, int numOfChildBag, List<Node> bags) {
-        bags.get(currentBagIndex).childrenBags.add(bags.get(childBagIndex));
-        if (numOfChildBag != 1) {
-            numOfChildBag--;
-            addChildBag(currentBagIndex, childBagIndex, numOfChildBag, bags);
-        }
-    }
-
-    protected static int createNewChild(List<Node> bags, String bagColor, Node currentParent, int currentBagIndex) {
-        int childBagIndex = bags.size();
-        Node currentChild = new Node(bagColor, currentParent);
-        bags.add(currentChild);
-        //bags.get(currentBagIndex).childrenBags.add(currentChild);
-        return childBagIndex;
-    }
-
-    protected static int getIndex(List<Node> bags, String bagColor) {
-        int index = -1;
-        for (int i = 0; i < bags.size(); i++) {
-            if (bags.get(i).bagColor.equals(bagColor)) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
-    protected static void setCurrentBag(List<Node> bags, String bagColor) {
-        boolean bagExists = false;
-
-        for (int i = 0; i < bags.size(); i++) {
-            if (bags.get(i).bagColor.equals(bagColor)) {
-                bags.get(i).isBase = true;
-                bagExists = true;
-                break;
-            }
-        }
-
-        if (bagExists == false) {
-            createNewBag(bags, bagColor);
-        }
-    }
-
-    protected static void createNewBag(List<Node> bags, String bagColor) {
-        Node newBag = new Node(bagColor, true);
-        bags.add(newBag);
-    }
-
-    protected static String getBagColor(String rule, int currentIndex) {
-        //System.out.println(rule.length());
-        String bagColor = null;
-        int spaceCount = 0;
-        for (int i = 0; i < rule.length(); i++) {
-            if (rule.charAt(i) == ' ') {
-                spaceCount++;
-            }
-            if (spaceCount == 2) {
-                bagColor = rule.substring(0, currentIndex);
-                currentIndex++;
-                //System.out.println(bagColor + currentIndex);
-                break;
-            }
-            currentIndex++;
-        }
-        return bagColor;
-    }
-
-    protected static int getChildBagColor(List<String[][]> childrenBagColors, String rule, int currentIndex) {
-        int spaceCount = 0;
-
-        int numIndex = -1;
-        int colorIndex = -1;
-
-        for (int i = currentIndex; i < rule.length(); i++) {
-            if (rule.charAt(i) == ' ')
-                spaceCount++;
-            if (spaceCount == 2 && rule.charAt(i) == ' ')
-                numIndex = i+1;
-            if (spaceCount == 3 && rule.charAt(i) == ' ')
-                colorIndex = i+1;
-            if (spaceCount == 5) {
-                String numOfChildBag = rule.substring(numIndex, colorIndex-1);
-                String childBagColor = rule.substring(colorIndex, currentIndex);
-                String[][] childBags = {{numOfChildBag}, {childBagColor}};
-                childrenBagColors.add(childBags);
-                //currentIndex++;
-                //System.out.println(childBagColor + currentIndex);
-                break;
-            }
-            if (currentIndex == rule.length()-1)
-                break;
-            currentIndex++;
-        }
-        return currentIndex;
-    }
+ */
 
     private static List<String> readFile() throws FileNotFoundException {
         Path path = Paths.get("src/main/resources").resolve("Day7InputFile.txt");
@@ -275,20 +165,23 @@ public class Day7 {
         return rules;
     }
 
-    static class Node {
+    static class Bag {
         String bagColor;
-        List<Node> parentBag = new ArrayList<>();
-        List<Node> childrenBags = new ArrayList<>();
-        boolean isBase = false;
+        Bag parentBag;
+        List<Bag> childrenBags = new ArrayList<>();
+        int numBags;
 
-        Node (String bagColor, boolean isBase) {
+        Bag(String bagColor, int numBags) {
             this.bagColor = bagColor;
-            this.isBase = isBase;
+            this.numBags = numBags;
         }
 
-        Node (String bagColor, Node parentBag) {
-            this.bagColor = bagColor;
-            this.parentBag.add(parentBag);
+        public void setParentBag(Bag parent) {
+            this.parentBag = parent;
+        }
+
+        public void addChildBag(Bag child) {
+            childrenBags.add(child);
         }
     }
 }
