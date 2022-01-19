@@ -80,9 +80,25 @@ public class FuelRequirements_Day1 {
     }
 
     protected static int fuelForCurrModule(Integer module) {
-        int fuelRequired = (module / 3) - 2;
+        int fuelRequiredForModule = (module / 3) - 2;
 
-        return fuelRequired;
+        int fuelForFuel = fuelNeededForFuel(fuelRequiredForModule);
+
+        int totalFuelRquired = fuelRequiredForModule + fuelForFuel;
+
+        return totalFuelRquired;
+    }
+
+    protected static int fuelNeededForFuel(int fuel) {
+        int fuelForFuel = (fuel / 3) - 2;
+
+        if (fuelForFuel < 0)
+            fuelForFuel = 0;
+
+        if (fuelForFuel > 0)
+            fuelForFuel += fuelNeededForFuel(fuelForFuel);
+
+        return fuelForFuel;
     }
 
     private static List<Integer> readFile() throws FileNotFoundException {
