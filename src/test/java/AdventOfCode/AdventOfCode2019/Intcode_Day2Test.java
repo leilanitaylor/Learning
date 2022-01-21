@@ -19,7 +19,7 @@ class Intcode_Day2Test {
     void test1setNewValues() {
         List<Integer> opcodes = Arrays.asList(1, 0, 0, 0, 99);
         List<Integer> expected = Arrays.asList(1, 12, 2, 0, 99);
-        d2.setNewValues(opcodes);
+        d2.setNewValues(opcodes, 12, 2);
         Assertions.assertEquals(expected.size(), opcodes.size());
         for (int i = 0; i < expected.size(); i++) {
             Assertions.assertEquals(expected.get(i), opcodes.get(i));
@@ -30,7 +30,7 @@ class Intcode_Day2Test {
     void test2setNewValues() {
         List<Integer> opcodes = Arrays.asList(1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50);
         List<Integer> expected = Arrays.asList(1, 12, 2, 3, 2, 3, 11, 0, 99, 30, 40, 50);
-        d2.setNewValues(opcodes);
+        d2.setNewValues(opcodes, 12, 2);
         Assertions.assertEquals(expected.size(), opcodes.size());
         for (int i = 0; i < expected.size(); i++) {
             Assertions.assertEquals(expected.get(i), opcodes.get(i));
@@ -78,7 +78,7 @@ class Intcode_Day2Test {
     }
 
     @Test
-    void test3nultInputs() {
+    void test3multInputs() {
         int input1 = 99;
         int input2 = 99;
         int expected = 9801;
@@ -198,6 +198,29 @@ class Intcode_Day2Test {
         Assertions.assertEquals(expected.size(), opcodes.size());
         for (int i = 0; i < expected.size(); i++) {
             Assertions.assertEquals(expected.get(i), opcodes.get(i));
+        }
+    }
+
+    @Test
+    void test1setUpTest() {
+        List<Integer> opcodes = Arrays.asList(1, 1, 1, 4, 99, 5, 6, 0, 99);
+        List<Integer> opcodesTest = d2.setUpTest(opcodes);
+        Assertions.assertNotNull(opcodesTest);
+        Assertions.assertEquals(opcodes.size(), opcodesTest.size());
+        for (int i = 0; i < opcodes.size(); i++) {
+            Assertions.assertEquals(opcodes.get(i), opcodesTest.get(i));
+        }
+    }
+
+    @Test
+    void test2setUpTest() {
+        List<Integer> opcodes = Arrays.asList(1, 1, 1, 4, 99, 5, 6, 0, 99);
+        List<Integer> opcodesTest = Arrays.asList(0, 0, 0, 5, 10, 2, 4, 9, 99);
+        opcodesTest = d2.setUpTest(opcodes);
+        Assertions.assertNotNull(opcodesTest);
+        Assertions.assertEquals(opcodes.size(), opcodesTest.size());
+        for (int i = 0; i < opcodes.size(); i++) {
+            Assertions.assertEquals(opcodes.get(i), opcodesTest.get(i));
         }
     }
 }

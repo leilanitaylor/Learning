@@ -59,6 +59,42 @@ Part 1:
     last computer caught fire. To do this, before running the program, replace position
     1 with the value 12 and replace position 2 with the value 2. What value is left at
     position 0 after the program halts?
+
+
+Part 2:
+    Intcode programs are given as a list of integers; these values are used as the
+    initial state for a computer's memory. When you run an Intocode program, make sure
+    to start by initializing memory to the program's values. A position in memory is
+    called an address (for example, the first value in memory is at "address 0").
+
+    Opcodes (like 1, 2, or 99) mark the beginning of an instruction. The values used
+    immediately after an opcode, if any, are called the instruction's parameters. For
+    example, in the instruction 1,2,3,4, 1 is the opcode; 2, 3, and 4 are the
+    parameters. The instruction 00 contains only an opcode and has no parameters.
+
+    The address of the current instruction is called the instruction pointer; it starts
+    at 0. After an instruction finishes, the instruction pointer increases by the
+    number of values in the instruction; until you add more instructions to the
+    computer, this is always 4 (1 opcode + 3 parameters) for the add and multiply
+    instructions. (The halt instruction would increase the instruction pointer by 1, but
+    it halts the program instead.)
+
+    To complete the gravity assist, you need to determine what pair of inputs produces
+    the oputput 19690720.
+
+    The inputs should still be provided to the program by replacing the values at
+    addresses 1 and 2, just like before. In this program, the value placed in address 1
+    is called the noun, and the value placed in address 2 is called the verb. Each of
+    the two input values will be between 0 and 99, inclusive.
+
+    Once the program has halted, its output is available at address 0, also just like
+    before. Each time you try a pair of inputs, make sure you first reset the computer's
+    memory to the values in the program (your puzzle input) - in other words, don't
+    reuse the memory from a previous attempt.
+
+    Find the input noun and verb that cause the program to produce the output 19690720.
+    What is 100 * noun + verb? (For example, if noun = 12 and verb = 2, the answer
+    would be 1202.)
  */
 
 import java.io.File;
@@ -71,35 +107,69 @@ import java.util.Scanner;
 import java.util.*;
 
 public class Intcode_Day2 {
+    static int noun = 0;
+    static int verb = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
         List<Integer> opcodes = readFile();
 
-        opcodes = setNewValues(opcodes);
+        //opcodes = setNewValues(opcodes, 12, 2);
+        //runProgram(opcodes);
 
-        runProgram(opcodes);
+        //System.out.println("Position 0 value: " + opcodes.get(0));
 
-        System.out.println("Position 0 value: " + opcodes.get(0));
+        List<Integer> opcodesTest = setUpTest(opcodes);
+        opcodesTest = setNewValues(opcodesTest, noun, verb);
+        runProgram(opcodesTest);
+
+        while (opcodesTest.get(0) != 19690720) {
+            if (verb == 99 && noun == 99) {
+                System.out.println("Cannont find working combination of noun and verb");
+                break;
+            }
+            else if (verb == 99) {
+                verb = 0;
+                noun++;
+            } else
+                verb++;
+
+            opcodesTest = setUpTest(opcodes);
+            opcodesTest = setNewValues(opcodesTest, noun, verb);
+            runProgram(opcodesTest);
+        }
+
+        int answer = 100 * noun + verb;
+        System.out.println("Noun: " + noun + ", Verb: " + verb + ", Position Zero: " + opcodesTest.get(0) + ", Answer: " + answer);
+    }
+
+    protected static List<Integer> setUpTest(List<Integer> opcodes) {
+        List<Integer> opcodesTest = new ArrayList<>();
+
+        for (int i = 0; i < opcodes.size(); i++) {
+            opcodesTest.add(opcodes.get(i));
+        }
+
+        return opcodesTest;
     }
 
     protected static void runProgram(List<Integer> opcodes) {
-        int currentIndex = 0;
+        int instructionPointer = 0;
 
-        while (currentIndex <= opcodes.size()) {
-            if (opcodes.get(currentIndex) == 99)
+        while (instructionPointer <= opcodes.size()) {
+            if (opcodes.get(instructionPointer) == 99)
                 break;
-            runOpcode(opcodes, currentIndex);
-            currentIndex += 4;
+            runOpcode(opcodes, instructionPointer);
+            instructionPointer += 4;
         }
     }
 
-    protected static void runOpcode(List<Integer> opcodes, int currentIndex) {
-        int opcode = opcodes.get(currentIndex);
-        int input1position = opcodes.get(currentIndex+1);
-        int input2position = opcodes.get(currentIndex+2);
+    protected static void runOpcode(List<Integer> opcodes, int instructionPointer) {
+        int opcode = opcodes.get(instructionPointer);
+        int input1position = opcodes.get(instructionPointer+1);
+        int input2position = opcodes.get(instructionPointer+2);
         int input1 = opcodes.get(input1position);
         int input2 = opcodes.get(input2position);
-        int solutionIndex = opcodes.get(currentIndex+3);
+        int solutionIndex = opcodes.get(instructionPointer+3);
         int solution;
 
         if (opcode == 1) {
@@ -130,10 +200,10 @@ public class Intcode_Day2 {
         return solution;
     }
 
-    protected static List<Integer> setNewValues(List<Integer> opcodes) {
+    protected static List<Integer> setNewValues(List<Integer> opcodes, int noun, int verb) {
         if (opcodes.size() > 3) {
-            opcodes.set(1, 12);
-            opcodes.set(2, 2);
+            opcodes.set(1, noun);
+            opcodes.set(2, verb);
         }
 
         return opcodes;
